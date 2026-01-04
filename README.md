@@ -17,5 +17,5 @@ You can find all related resources in the `practice-scenario-1` directory.
 Intended use: 
 
 1. On your `control-plane` node, run the `break-cluster.sh` script.
-2. Work through the prescribed problems. NOTE: they arequire you to assess which items need to be addressed first, and which can only be addressed after that and so on.
+2. Work through the prescribed problems. NOTE: they require you to assess which items need to be addressed first, and which can only be addressed after that and so on.
 3. Valide the state of your cluster by running the `validate-cluster.sh` script to check your progress.
