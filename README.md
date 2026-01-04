@@ -1,21 +1,162 @@
-# Certified-Kubernetes-Admin-Prep
+ # Certified Kubernetes Administrator (CKA) Practice Labs
 
-I'm familiar with Kubernetes, as I've worked with it in a number of different settings for years, but only recently did I endeavor to get my CKA certificate. In doing so, I noticed that there are paid resources strewn across the web, but I would rather leverage the tools available to spin up my own clusters and practice the range of skills required to pass the exam. 
+## Overview
 
-This resource is intended to save folks the legwork of generating your own resources as I am, cause, you know, why not? :) 
+I’m already familiar with Kubernetes from years of hands-on experience across multiple environments, but I only recently set out to formally earn the **Certified Kubernetes Administrator (CKA)** credential.
 
-NOTE: This resource is currently under construction.  
+While preparing, I noticed that many high-quality practice resources are **paid, fragmented, or overly simplified**. Since Kubernetes itself gives us everything we need to build realistic failure scenarios, I decided to create my own **hands-on, break/fix–style practice labs** that mirror the kinds of problems you actually encounter on the CKA exam (and in real clusters).
+
+This repository is intended to:
+
+- Eliminate the legwork of inventing realistic practice scenarios
+- Encourage *diagnosis-first* troubleshooting instead of rote command memorization
+- Provide repeatable, script-driven failure and validation workflows
+- Stay close to **upstream Kubernetes behavior** (no vendor abstractions)
+
+> **NOTE:** This resource is actively under construction. Scenarios may evolve as I continue refining difficulty, realism, and exam coverage.
+
+---
+
+## Philosophy & Intended Skill Level
+
+These scenarios assume you:
+
+- Are comfortable with `kubectl`
+- Understand core Kubernetes concepts (nodes, pods, services, volumes)
+- Want to practice **system-level troubleshooting**, not YAML memorization
+
+If you’re brand new to Kubernetes, this is probably *not* the right starting point.
+
+---
 
 ## Getting Started
 
-Regardless of the specific practice scenario you select, it will always begin with a common first step of spinning up a bare metal K8s cluster on Digital Ocean Droplets as described in detail in my first accompanying blog post, "[Bare Metal K8s on Ubuntu 24.04](https://medium.com/@jeff.d.vincent/bare-metal-k8s-cluster-for-dummies-fc3616b2debb)". 
+All practice scenarios assume a **bare-metal-style Kubernetes cluster** running on Ubuntu 24.04.
 
-## Practice Scenario 1
+I use **DigitalOcean Droplets**, but any environment where you have:
 
-You can find all related resources in the `practice-scenario-1` directory. 
+- Root access to nodes
+- systemd-managed kubelet
+- A kubeadm-initialized cluster
 
-Intended use: 
+will work.
 
-1. On your `control-plane` node, run the `break-cluster.sh` script.
-2. Work through the prescribed problems. NOTE: they require you to assess which items need to be addressed first, and which can only be addressed after that and so on.
-3. Valide the state of your cluster by running the `validate-cluster.sh` script to check your progress.
+### Cluster Setup
+
+Follow the instructions in my accompanying blog post:
+
+**[Bare Metal Kubernetes on Ubuntu 24.04](https://medium.com/@jeff.d.vincent/bare-metal-k8s-cluster-for-dummies-fc3616b2debb)**
+
+Once your cluster is up and healthy:
+
+```bash
+kubectl get nodes
+kubectl get pods -A
+```
+
+# Practice Scenarios
+
+## Practice Scenario 1 — Node, Networking, RBAC, Storage, Control Plane
+
+**Focus:** Core cluster recovery & dependency ordering
+
+### Topics Covered
+- kubelet failures and node readiness
+- CNI configuration vs CNI plugin binaries
+- Pod sandbox creation failures
+- Static pod misconfiguration (kube-apiserver)
+- RBAC scope and verb mismatches
+- CrashLoopBackOff vs liveness probe misconfiguration
+- PersistentVolume / PersistentVolumeClaim mismatches
+
+### Skills Practiced
+- Reading node and pod events
+- Diagnosing failures that cascade across layers
+- Understanding which components must be fixed first
+- Using validation commands under exam-style pressure
+
+---
+
+## Practice Scenario 2 — Networking, DNS, RBAC Scope, Images, StorageClasses
+
+**Focus:** Cluster services & workload correctness
+
+### Topics Covered
+- kube-dns / CoreDNS failures
+- DNS resolution inside pods
+- Namespace-scoped RBAC errors
+- ImagePullBackOff diagnostics
+- StorageClass selection and binding logic
+- PVCs stuck in `Pending` due to subtle mismatches
+
+### Skills Practiced
+- Debugging inside running pods
+- Distinguishing control-plane health from workload health
+- Interpreting scheduler and controller-manager behavior
+
+---
+
+## Practice Scenario 3 — Control Plane & Certificate Failures
+
+**Focus:** Control plane stability and security primitives
+
+### Topics Covered
+- kube-apiserver instability
+- Invalid or expired certificates
+- etcd connectivity misconfiguration
+- kubeconfig context errors
+- Component health endpoints
+
+### Skills Practiced
+- Static pod inspection and recovery
+- Reading control-plane logs
+- Understanding certificate trust chains
+- Restoring API availability without reinitializing the cluster
+
+---
+
+## Practice Scenario 4 — Scheduling, Resources, and Node Constraints
+
+**Focus:** Why pods don’t schedule
+
+### Topics Covered
+- Node taints and tolerations
+- Impossible resource requests
+- Unsatisfiable affinity / anti-affinity rules
+- Pod priority and preemption
+- Scheduler diagnostics
+
+### Skills Practiced
+- Reading scheduler events
+- Understanding why pods remain in `Pending`
+- Differentiating scheduling failures from runtime failures
+
+---
+
+## Practice Scenario 5 — Stateful Workloads, Networking Policies, Storage
+
+**Focus:** StatefulSets and isolation
+
+### Topics Covered
+- StatefulSet rollout failures
+- Headless services
+- PersistentVolume reuse constraints
+- StorageClass reclaim policies
+- NetworkPolicy blocking pod-to-pod traffic
+
+### Skills Practiced
+- Stateful workload troubleshooting
+- Storage lifecycle awareness
+- NetworkPolicy reasoning (ingress vs egress)
+- Debugging “everything is running but nothing works” scenarios
+
+---
+
+## How to Use a Scenario
+
+For any given scenario directory:
+
+### 1. Break the cluster
+```bash
+./break-cluster.sh
+
