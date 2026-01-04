@@ -87,13 +87,13 @@ kubectl get --raw=/healthz
 
 ### Task
 
-* Modify RBAC so that the ServiceAccount `broken-app` in the `default` namespace can list pods
+* Modify RBAC so that the ServiceAccount `crashy-app` in the `default` namespace can list pods
 
 ### Expected Cluster State After Solution
 
 ```bash
 kubectl auth can-i list pods \
-  --as=system:serviceaccount:default:broken-app
+  --as=system:serviceaccount:default:crashy-app
 ```
 
 * Command output is `yes`
