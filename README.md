@@ -159,4 +159,39 @@ For any given scenario directory:
 ### 1. Break the cluster
 ```bash
 ./break-cluster.sh
+```
 
+### 2. Work through the accompanying task list to return the cluster and deployed resources to a healthy state.
+
+- No step-by-step instructions are provided
+
+- Use kubectl, logs, events, and direct node access
+
+- Fix issues in the correct dependency order
+
+### 3. Validate Success
+```bash
+./validate-cluster.sh
+```
+
+## Exam Alignment
+
+These scenarios map closely to the official CKA curriculum, including:
+
+- Cluster Architecture, Installation & Configuration
+
+- Workloads & Scheduling
+
+- Services & Networking
+
+- Storage
+
+- Troubleshooting
+
+They are intentionally designed to feel like real production incidents, not sanitized exam questions.
+
+## Final Note
+
+If this repository saves you time, stress, or money while prepping for the CKA — mission accomplished.
+
+Happy K8s-ing!!! 
