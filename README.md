@@ -161,7 +161,9 @@ For any given scenario directory:
 ./break-cluster.sh
 ```
 
-### 2. Work through the accompanying task list to return the cluster and deployed resources to a healthy state.
+### 2. Return the cluster and deployed resources to a healthy state
+
+ Work through the accompanying task list to get everything healthy and running again.
 
 - No step-by-step instructions are provided
 
