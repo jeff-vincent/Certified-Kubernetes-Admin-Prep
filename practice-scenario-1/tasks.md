@@ -93,7 +93,7 @@ kubectl get --raw=/healthz
 
 ```bash
 kubectl auth can-i list pods \
-  --as=system:serviceaccount:default:crashy-app
+  --as=system:serviceaccount:default:broken-app
 ```
 
 * Command output is `yes`
