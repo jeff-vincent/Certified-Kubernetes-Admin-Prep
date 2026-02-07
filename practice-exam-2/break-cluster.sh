@@ -75,6 +75,9 @@ EOF
 ########################################
 echo "🔐 [4/8] Creating broken RBAC"
 
+# 🔧 FIX: Create the namespace first
+kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
+
 kubectl apply -f - <<'EOF'
 apiVersion: v1
 kind: ServiceAccount
@@ -89,7 +92,7 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["nodes"]
-  verbs: ["get"]   # Missing "list"
+  verbs: ["get"]   # Still intentionally missing "list"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -104,6 +107,7 @@ roleRef:
   name: node-reader
   apiGroup: rbac.authorization.k8s.io
 EOF
+
 
 ########################################
 # 5. Deploy broken StatefulSet
